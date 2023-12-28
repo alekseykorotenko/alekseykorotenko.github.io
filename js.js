@@ -1,75 +1,154 @@
+// class Hamburger {
+//   constructor(size, additive) {
+//     this.size = size;
+//     this.additive = additive;
+//   }
+
+//   addToping(toping) {
+//     if (toping == 'spice') {
+//       this.toping = 'spice';
+//     } else if (toping == 'mayo') {
+//       this.toping = 'mayo';
+//     }
+//   }
+
+//   calculate() {
+//     let calories = 0;
+//     if (this.size == 'small') {
+//       calories += 20;
+//     } else if (this.size == 'big') {
+//       calories += 40;
+//     }
+
+//     if (this.additive == 'cheese') {
+//       calories += 20;
+//     } else if (this.additive == 'salad') {
+//       calories += 5;
+//     } else if (this.additive == 'potato') {
+//       calories += 10;
+//     }
+
+//     if (this.toping == 'mayo') {
+//       calories += 5;
+//     }
+
+//     return calories;
+//   }
+
+//   calculatePrice() {
+//     let price = 0;
+//     if (this.size == 'small') {
+//       price += 50;
+//     } else if (this.size == 'big') {
+//       price += 100;
+//     }
+
+//     if (this.additive == 'cheese') {
+//       price += 10;
+//     } else if (this.additive == 'salad') {
+//       price += 20;
+//     } else if (this.additive == 'potato') {
+//       price += 15;
+//     }
+
+//     if (this.toping == 'spice') {
+//       price += 15;
+//     }
+//     if (this.toping == 'mayo') {
+//       price += 20;
+//     }
+
+//     return price;
+//   }
+// }
+
+// const hamb = new Hamburger('small', 'cheese');
+
+// console.log(hamb);
+
+// console.log(hamb.calculate());
+// console.log(hamb.calculatePrice());
+
+// hamb.addToping('mayo');
+
+// console.log(hamb);
+// console.log(hamb.calculate());
+// console.log(hamb.calculatePrice());
+
 class Hamburger {
-  constructor(size, additive) {
+  constructor(size, stuffing) {
     this.size = size;
-    this.additive = additive;
+    this.stuffing = stuffing;
+    this.toping = [];
   }
 
-  addToping(toping) {
-    if (toping == 'spice') {
-      this.toping = 'spice';
-    } else if (toping == 'mayo') {
-      this.toping = 'mayo';
-    }
+  static SIZE_SMALL = {
+    calories: 20,
+    price: 50
+  };
+
+  static SIZE_BIG = {
+    calories: 40,
+    price: 100
+  };
+
+  static STUFFING_CHEESE = {
+    calories: 20,
+    price: 10
+  };
+
+  static STUFFING_SALAD = {
+    calories: 5,
+    price: 20
+  };
+
+  static STUFFING_POTATO = {
+    calories: 10,
+    price: 15
+  };
+
+  static TOPPING_MAYO = {
+    calories: 5,
+    price: 20
+  };
+
+  static TOPPING_SAUCE = {
+    calories: 0,
+    price: 15
+  };
+
+  addTopping(value) {
+    this.toping.push(value);
   }
 
   calculate() {
-    let calories = 0;
-    if (this.size == 'small') {
-      calories += 20;
-    } else if (this.size == 'big') {
-      calories += 40;
-    }
-
-    if (this.additive == 'cheese') {
-      calories += 20;
-    } else if (this.additive == 'salad') {
-      calories += 5;
-    } else if (this.additive == 'potato') {
-      calories += 10;
-    }
-
-    if (this.toping == 'mayo') {
-      calories += 5;
-    }
-
+    let calories = this.size.calories + this.stuffing.calories;
+    this.toping.forEach((el) => (calories += el.calories));
     return calories;
   }
 
   calculatePrice() {
-    let price = 0;
-    if (this.size == 'small') {
-      price += 50;
-    } else if (this.size == 'big') {
-      price += 100;
-    }
-
-    if (this.additive == 'cheese') {
-      price += 10;
-    } else if (this.additive == 'salad') {
-      price += 20;
-    } else if (this.additive == 'potato') {
-      price += 15;
-    }
-
-    if (this.toping == 'spice') {
-      price += 15;
-    } else if (this.toping == 'mayo') {
-      price += 20;
-    }
-
+    let price = this.size.price + this.stuffing.price;
+    this.toping.forEach((el) => (price += el.price));
     return price;
   }
 }
 
-const hamb = new Hamburger('small', 'cheese');
+// Код нижче взято з лмс, для перевірки умов
+// маленький гамбургер з начинкою з сиру
+const hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE);
 
-console.log(hamb);
+// добавка з майонезу
+hamburger.addTopping(Hamburger.TOPPING_MAYO);
 
-console.log(hamb.calculate());
-console.log(hamb.calculatePrice());
+// запитаємо скільки там калорій
+console.log(`Calories:` + hamburger.calculate());
 
-hamb.addToping('mayo');
+// скільки коштує
+console.log(`Price:` + hamburger.calculatePrice());
 
-console.log(hamb);
-console.log(hamb.calculate());
-console.log(hamb.calculatePrice());
+// я тут передумав і вирішив додати ще приправу
+hamburger.addTopping(Hamburger.TOPPING_SAUCE);
+
+// А скільки тепер коштує?
+console.log(`Price with sauce: ` + hamburger.calculatePrice());
