@@ -136,19 +136,105 @@ class Hamburger {
 
 // Код нижче взято з лмс, для перевірки умов
 // маленький гамбургер з начинкою з сиру
-const hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE);
+// const hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE);
 
-// добавка з майонезу
-hamburger.addTopping(Hamburger.TOPPING_MAYO);
+// // добавка з майонезу
+// hamburger.addTopping(Hamburger.TOPPING_MAYO);
 
-// запитаємо скільки там калорій
-console.log(`Calories:` + hamburger.calculate());
+// // запитаємо скільки там калорій
+// console.log(`Calories:` + hamburger.calculate());
 
-// скільки коштує
-console.log(`Price:` + hamburger.calculatePrice());
+// // скільки коштує
+// console.log(`Price:` + hamburger.calculatePrice());
 
-// я тут передумав і вирішив додати ще приправу
-hamburger.addTopping(Hamburger.TOPPING_SAUCE);
+// // я тут передумав і вирішив додати ще приправу
+// hamburger.addTopping(Hamburger.TOPPING_SAUCE);
 
-// А скільки тепер коштує?
-console.log(`Price with sauce: ` + hamburger.calculatePrice());
+// // А скільки тепер коштує?
+// console.log(`Price with sauce: ` + hamburger.calculatePrice());
+
+let size = '';
+do {
+  size =
+    confirm('Бажаєш великий бургер?') == true
+      ? Hamburger.SIZE_BIG
+      : confirm('Бажаєш малий бургер?')
+      ? Hamburger.SIZE_SMALL
+      : null;
+} while (!size);
+
+let stuffing = '';
+
+do {
+  stuffing = confirm('Бажаєш начинку з сиром?')
+    ? Hamburger.STUFFING_CHEESE
+    : confirm('Бажаєш начинку з салатом?')
+    ? Hamburger.STUFFING_SALAD
+    : confirm('Бажаєш начинку з картоплею?')
+    ? Hamburger.STUFFING_POTATO
+    : null;
+} while (!stuffing);
+
+const hamburger = new Hamburger(size, stuffing);
+
+document.write(`Calories: ` + hamburger.calculate() + '<br>');
+document.write(`Price: ` + hamburger.calculatePrice());
+
+const block = document.querySelector('.block');
+
+block.innerHTML = `<button class="btn"> Додати топінг</button>`;
+
+const btn = document.querySelector('.btn');
+
+btn.addEventListener('click', () => {
+  let mayoTopping = confirm('Бажаєш додати майонез?')
+    ? hamburger.addTopping(Hamburger.TOPPING_MAYO)
+    : '';
+  console.log(mayoTopping);
+  if (mayoTopping != '') {
+    let res = `
+    <br> =================== <br>
+    Оновлені дані: <br>
+    Calories:  ${hamburger.calculate()} <br>
+    Price: ${hamburger.calculatePrice()}<br>
+    `;
+
+    let paragraph = document.createElement('p');
+    paragraph.innerHTML = res;
+
+    document.body.appendChild(paragraph);
+  }
+
+  const sauceTopping = confirm('Бажаєш посипати приправою?')
+    ? hamburger.addTopping(Hamburger.TOPPING_SAUCE)
+    : '';
+
+  console.log(sauceTopping);
+  if (sauceTopping != '') {
+    let res = `
+      <br> =================== <br>
+        Оновлені дані: <br>
+        Calories:  ${hamburger.calculate()} <br>
+        Price: ${hamburger.calculatePrice()}<br>
+        `;
+
+    let paragraph = document.createElement('p');
+    paragraph.innerHTML = res;
+
+    document.body.appendChild(paragraph);
+  }
+});
+
+// const mayoTopping = confirm('Бажаєш додати майонез?')
+//   ? hamburger.addTopping(Hamburger.TOPPING_MAYO)
+//   : '';
+
+// alert(`Calories:` + hamburger.calculate());
+// alert(`Price:` + hamburger.calculatePrice());
+
+// const sauceTopping = confirm('Бажаєш інший соус?')
+//   ? hamburger.addTopping(Hamburger.TOPPING_SAUCE)
+//   : '';
+
+// alert(`Calories:` + hamburger.calculate());
+// alert(`Price:` + hamburger.calculatePrice());
